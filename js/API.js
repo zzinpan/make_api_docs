@@ -12,6 +12,7 @@ function API( _language ){
 	var $descExample = $("#desc_example");
 	var $apiSearchInp = $("#api_search_input");
 	var $apiSearchBtn = $("#api_search_btn");
+	var $window = $(window);
 	
 	$apiItems.on("click", ".api_item", function(){
 		var $this = $(this);
@@ -36,7 +37,7 @@ function API( _language ){
 		$descExample.fadeIn( 500 );
 		var $clone = $this.clone();
 		$clone.css({
-			top: $this.offset().top,
+			top: $this.offset().top - $window.scrollTop(),
 			left: $this.offset().left
 		}).attr({
 			class: "api_focused_item api_clicked_item"
@@ -50,7 +51,7 @@ function API( _language ){
 		var $this = $(this);
 		var $clone = $this.clone();
 		$clone.css({
-			top: $this.offset().top,
+			top: $this.offset().top - $window.scrollTop(),
 			left: $this.offset().left
 		}).attr({
 			class: "api_focused_item"
@@ -64,14 +65,16 @@ function API( _language ){
 		$(".api_focused_item:not(.api_clicked_item)").remove();
 	}).on("scroll", function( e ){
 //		e.originalEvent.wheelDeltaY
+		e.stopPropagation();
+		
 		var $api_clicked_item = $(".api_clicked_item");
 		if( $api_clicked_item.length === 0 ){
 			return;
 		}
 		var $ref = $api_clicked_item.data("$ref");
 		
-		var top = $ref.offset().top;
-		if( $apiItems.offset().top > top ){
+		var top = $ref.offset().top - $window.scrollTop();
+		if( $apiItems.offset().top - $window.scrollTop() > top ){
 			$api_clicked_item.hide();
 		}else{
 			$api_clicked_item.show();
