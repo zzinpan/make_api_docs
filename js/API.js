@@ -192,7 +192,9 @@ $(function API(){
 	
 	$window.resize(function(){
 		var h = $window.height() - 155;
-		$apiItems.height( h );
+		$.each( $apiItems, function( idx, apiItem ){
+			$(apiItem).height( h );
+		} );
 	}).trigger("resize");
 	
 	$cover.click( function(){
