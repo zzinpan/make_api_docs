@@ -1,13 +1,18 @@
 # make_api_docs
----
-#### API.setLanguage( `String` language )
+
+<br>
+
+#### API
+
+***
+
+###### API.setLanguage( `String` language )
 ```javascript
 
 API.setLanguage( 'javascript' );
 
 ```
----
-#### API.add( `String` listItemName, `String` function, `String` description, `Object` parameters, `Object` return, `String` example )
+###### API.add( `String` listItemName, `String` function, `String` description, `Object` parameters, `Object` return, `String` example )
 ```javascript
 
 API.add( 
@@ -24,13 +29,17 @@ API.add(
 		);
 
 ```
----
+
+***
+
 #### Dependency Library
 - jquery
 - bootstrap
 - font-awesome
 - jstree
 - showdown
+
+***
 
 #### Sample
 https://zzinpan.github.io/make_api_docs/index.html
