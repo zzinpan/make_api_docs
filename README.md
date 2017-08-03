@@ -16,17 +16,17 @@ API.setLanguage( 'javascript' );
 ```javascript
 
 API.add( 
-			"document.getElementById", 
-			"Element element = document.getElementById( String DOMId )",
-			"Find the element in the DOM.",
-			{
-        "*DOMId": "Attribute value ID of the element."
-			},
-			{
-        "element": "The element corresponding to ID is returned."
-      },
-			"var button = document.getElementById('button');"
-		);
+	"document.getElementById", 
+	"Element element = document.getElementById( String DOMId )",
+	"Find the element in the DOM.",
+	{
+		"*DOMId": "Attribute value ID of the element."
+	},
+	{
+		"element": "The element corresponding to ID is returned."
+	},
+	"var button = document.getElementById('button');"
+);
 
 ```
 
