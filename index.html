@@ -34,52 +34,6 @@ body{ overflow: hidden; }
 <script type="text/javascript" src="lib/jstree-3.3.4/jstree.min.js"></script>
 <script type="text/javascript" src="js/API.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
-<script type="text/javascript">
-$(function ready(){
-	var $contentList = $("#content_list");
-	var $treeList = $("#tree_list");
-	var $apiItems = $("#api_items");
-	var $cover = $("#cover");
-	var $tabBtn = $(".tab_btn");
-	
-	var $window = $(window);
-	$window.resize(function(){
-		var h = $window.height() - 155;
-		$apiItems.height( h );
-	}).trigger("resize");
-	
-	$cover.click( function(){
-		$cover.fadeOut( 500, function(){
-			$("body").css("overflow", "auto");
-		} );
-	} );
-	
-	$tabBtn.click( function(){
-	
-		var $this = $(this);
-		var $other = $tabBtn.not( $this );
-	
-		$this.addClass("focus");
-		$other.removeClass("focus");
-		
-		var $thisImg = $this.find("img");
-		var $otherImg = $other.find("img");
-
-		$thisImg.attr("src", $thisImg.attr("focus-src"));
-		$otherImg.attr("src", $otherImg.attr("basic-src"));
-		
-		$this.closest(".api_list").addClass("focus");
-		$other.closest(".api_list").removeClass("focus");
-		
-		if( $treeList.hasClass("focus") ){
-			$(".api_focused_item").hide();
-		}else{
-			$(".api_focused_item").show();
-		}
-	} );
-	
-});
-</script>
 </head>
 <body>
 	<div class="container-fruid">

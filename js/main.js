@@ -1,8 +1,8 @@
 $(function(){
 	
-	window.api = new API( "javascript" );
+	API.setLanguage( "javascript" );
 	
-	api.add( 
+	API.add( 
 			"SmartGeoKit3D", 
 			"SmartGeoKit3D sgk3d = SmartGeoKit3D( String main )",
 			"SmartGeoKit3D 객체 생성자 함수",
@@ -15,7 +15,7 @@ $(function(){
 			"var sgk3d = new SmartGeoKit3D( 'main' );"
 		);
 	
-	api.add( 
+	API.add( 
 			"SmartGeoKit3D.prototype.init", 
 			"SmartGeoKit3D.prototype.init( Function initCallback )",
 			"SmartGeoKit3D 최초 변수 초기화 및 로드 함수",
@@ -31,7 +31,7 @@ $(function(){
 			"} );"
 		);
 	
-	api.add(
+	API.add(
 			"SmartGeoKit3D.prototype.transformInit", 
 			"SmartGeoKit3D.prototype.transformInit(  )",
 			"객체편집모드 로드 함수",
@@ -40,7 +40,7 @@ $(function(){
 			"sgk3d.transformInit();"
 		);
 	
-	api.add(
+	API.add(
 			"SmartGeoKit3D.transform.set", 
 			"SmartGeoKit3D.transform.set( Object option )",
 			"객체편집 함수",
@@ -63,7 +63,7 @@ $(function(){
 			"} );"
 		);
 	
-	api.add(
+	API.add(
 			"SmartGeoKit3D.transform.setMode", 
 			"SmartGeoKit3D.transform.setMode( String mode )",
 			"객체편집 형태 변경 함수",
@@ -76,7 +76,7 @@ $(function(){
 			"sgk3d.transform.setMode( 'translate' );"
 		);
 	
-	api.add(
+	API.add(
 			"SmartGeoKit3D.transform.setSpace", 
 			"SmartGeoKit3D.transform.setSpace( String space )",
 			"객체편집 좌표계 변경 함수",
@@ -88,7 +88,7 @@ $(function(){
 			"sgk3d.transform.setSpace( 'local' );"
 		);
 	
-	api.add(
+	API.add(
 			"SmartGeoKit3D.transform.setSize", 
 			"SmartGeoKit3D.transform.setSize( Number size )",
 			"객체편집 컨트롤러 크기 변경 함수",
@@ -99,7 +99,7 @@ $(function(){
 			"sgk3d.transform.setSize( 30 );"
 		);
 	
-	api.add(
+	API.add(
 			"SmartGeoKit3D.transform.on", 
 			"SmartGeoKit3D.transform.on(  )",
 			"객체편집 시작 함수",
@@ -108,7 +108,7 @@ $(function(){
 			"sgk3d.transform.on();"
 		);
 	
-	api.add(
+	API.add(
 			"SmartGeoKit3D.transform.off", 
 			"SmartGeoKit3D.transform.off(  )",
 			"객체편집 종료 함수",
@@ -117,7 +117,7 @@ $(function(){
 			"sgk3d.transform.on();"
 		);
 	
-	api.add(
+	API.add(
 			"SmartGeoKit3D.transform.attach", 
 			"SmartGeoKit3D.transform.attach( THREE.Object3D object )",
 			"객체편집 대상 변경 함수",
@@ -130,7 +130,7 @@ $(function(){
 			"sgk3d.transform.attach( cube );"
 		);
 	
-	api.add(
+	API.add(
 			"SmartGeoKit3D.prototype.setScanMode", 
 			"Boolean enable = SmartGeoKit3D.prototype.setScanMode(  )",
 			"객체 선택가능한 스캔모드 토글형 스위치 함수",
@@ -156,7 +156,7 @@ $(function(){
 		);
 	
 	
-	api.add(
+	API.add(
 			"SmartGeoKit3D.prototype.setFloor", 
 			"SmartGeoKit3D.prototype.setFloor( Object option )",
 			"바닥 변경 함수",
@@ -176,7 +176,7 @@ $(function(){
 		);
 	
 	
-	api.add(
+	API.add(
 			"SmartGeoKit3D.prototype.cameraPositionSet", 
 			"SmartGeoKit3D.prototype.cameraPositionSet( String direction )",
 			"중앙을 시점으로 카메라 고정된 위치 이동 함수",
@@ -192,7 +192,7 @@ $(function(){
 		);
 	
 	
-	api.add(
+	API.add(
 			"SmartGeoKit3D.prototype.tweenCameara", 
 			"SmartGeoKit3D.prototype.tweenCameara( Object option )",
 			"카메라의 위치와 시점을 변경하는 함수",
@@ -214,7 +214,7 @@ $(function(){
 		);
 	
 	
-	api.add(
+	API.add(
 			"SmartGeoKit3D.prototype.addPillar", 
 			"SmartGeoKit3D.prototype.addPillar( Object option )",
 			"기둥 추가 함수",
@@ -251,7 +251,7 @@ $(function(){
 		);
 	
 	
-	api.add(
+	API.add(
 			"SmartGeoKit3D.prototype.addBay", 
 			"SmartGeoKit3D.prototype.addBay( Object option )",
 			"바닥 영역 추가 함수",
@@ -271,7 +271,7 @@ $(function(){
 		);
 	
 	
-	api.add(
+	API.add(
 			"SmartGeoKit3D.prototype.addHatch", 
 			"SmartGeoKit3D.prototype.addHatch( Object option )",
 			"문 추가 함수",
@@ -305,7 +305,7 @@ $(function(){
 		);
 	
 	
-	api.add(
+	API.add(
 			"SmartGeoKit3D.prototype.addTank", 
 			"SmartGeoKit3D.prototype.addTank( Object option )",
 			"문 추가 함수",
@@ -339,7 +339,7 @@ $(function(){
 		);
 	
 	
-	api.add(
+	API.add(
 			"SmartGeoKit3D.prototype.addPipe", 
 			"SmartGeoKit3D.prototype.addPipe( Object option )",
 			"배관 추가 함수",
