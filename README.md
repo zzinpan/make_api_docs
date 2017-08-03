@@ -1,7 +1,5 @@
 # make_api_docs
 
-<br>
-
 #### API
 
 ***
