@@ -7,32 +7,40 @@
 <title>SmartGeoKit_cadViewer API</title>
 <link rel="stylesheet" href="lib/bootstrap-3.3.2-dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="lib/font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="lib/jstree-3.3.4/themes/default/style.min.css">
 <style type="text/css">
 body{ overflow: hidden; }
-.api_list{ position: fixed; left: 0; top: 0; height: 100%; width: 16.6%; box-shadow: 1px 1px 0px #eeeeee; text-align: center; color: #3399ff; background-color: ; }
+.api_list{ position: fixed; left: 0; top: 0; height: 100%; width: 16.6%; box-shadow: 1px 1px 0px #eeeeee; text-align: center; color: #3399ff; background-color: white; z-index: 50; }
+.api_list.focus{ z-index: 55; }
 .alert.alert-success{ background-color: white; color: #3399ff; border: none; border-bottom: #ccc solid 1px; margin-top: 50px; font-weight: bold; text-align: left; }
 .api_list input{ -webkit-box-shadow: none; border-radius: 0px; width: calc( 90% - 20px ); border: none; border-bottom: #ccc solid 1px; box-shadow: ; display: inline-block; }
 .api_title{ font-weight: bold; margin-top: 20px;background-color: #3399ff; color: white; padding: 20px; }
 .api_items{ color: #616161; text-align: left; padding-left: 40px; width: 100%; margin-top: 20px; overflow-y: auto; overflow-x: hidden; }
 .api_items .api_item{ cursor: pointer; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; float: left; width: 100%; display: block; padding: 5px; margin: 5px 0px; }
 .api_items .api_item:hover{ white-space: ; text-overflow: ; background-color: white; box-shadow: 2px 1px 1px #ccc; width: auto; }
-.api_focused_item{ position: fixed; margin: 0px; padding: 5px; color: #3399ff; box-shadow: 2px 1px 1px #ccc;	background-color: white; cursor: pointer; pointer-events: none; }
+.api_focused_item{ position: fixed; margin: 0px; padding: 5px; color: #3399ff; box-shadow: 2px 1px 1px #ccc;	background-color: white; cursor: pointer; pointer-events: none; z-index: 60; }
 .api_search{ margin-top: 20px; }
 .fa.fa-search{ cursor: pointer; }
 .desc{ color: #616161; font-size: 12px; padding: 0px 50px; }
-.cover{ position: fixed; width: 100%; height: 100%; left: 0px; top: 0px; background-color: rgba( 51, 153, 255, 0.8 ); cursor: pointer; }
+.cover{ position: fixed; width: 100%; height: 100%; left: 0px; top: 0px; background-color: rgba( 51, 153, 255, 0.8 ); cursor: pointer; z-index: 500; }
 .cover .cover_cont{ position: absolute; width: 100%; height: 200px; top: calc( 50% - 115px ); text-align: center; color: white; font-weight: bold; }
 .cover .cover_cont .cover_title{ color: white; font-weight: bold; font-size: 30px; text-align: center; }
+.tab_btn{ position: absolute; border-radius: 0px 5px 5px 0px; right: -40px; width: 40px; height: 40px; padding: 10px; box-shadow: 2px 1px 1px #ccc; cursor: pointer; }
+.tab_btn.focus{ background-color: #3399ff; }
 </style>
 <script type="text/javascript" src="lib/jquery/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="lib/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="lib/showdown/showdown.min.js"></script>
+<script type="text/javascript" src="lib/jstree-3.3.4/jstree.min.js"></script>
 <script type="text/javascript" src="js/API.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
 <script type="text/javascript">
 $(function ready(){
+	var $contentList = $("#content_list");
+	var $treeList = $("#tree_list");
 	var $apiItems = $("#api_items");
 	var $cover = $("#cover");
+	var $tabBtn = $(".tab_btn");
 	
 	var $window = $(window);
 	$window.resize(function(){
@@ -46,6 +54,30 @@ $(function ready(){
 		} );
 	} );
 	
+	$tabBtn.click( function(){
+	
+		var $this = $(this);
+		var $other = $tabBtn.not( $this );
+	
+		$this.addClass("focus");
+		$other.removeClass("focus");
+		
+		var $thisImg = $this.find("img");
+		var $otherImg = $other.find("img");
+
+		$thisImg.attr("src", $thisImg.attr("focus-src"));
+		$otherImg.attr("src", $otherImg.attr("basic-src"));
+		
+		$this.closest(".api_list").addClass("focus");
+		$other.closest(".api_list").removeClass("focus");
+		
+		if( $treeList.hasClass("focus") ){
+			$(".api_focused_item").hide();
+		}else{
+			$(".api_focused_item").show();
+		}
+	} );
+	
 });
 </script>
 </head>
@@ -53,7 +85,7 @@ $(function ready(){
 	<div class="container-fruid">
 	
 		<!-- API 목록 -->
-		<div id="api_list" class="api_list">
+		<div id="content_list" class="api_list">
 			<!-- 제목 -->
 			<div>
 				<h4 class="api_title">API List</h4>
@@ -64,6 +96,27 @@ $(function ready(){
 				<i id="api_search_btn" class="fa fa-search"></i>
 			</div>
 			<div id="api_items" class="api_items">
+			</div>
+			
+			<div class="tab_btn" style="top: 120px;">
+				<img src="img/search.png" basic-src="img/search.png" focus-src="img/search-white.png" width="20" height="20">
+			</div>
+		</div>
+		
+		<!-- API 목록 -->
+		<div id="tree_list" class="api_list focus">
+			<!-- 제목 -->
+			<div>
+				<h4 class="api_title">API List</h4>
+			</div>
+			<!-- 검색 -->
+			<div class="api_search">
+			</div>
+			<div id="tree_items" class="api_items">
+			</div>
+
+			<div class="tab_btn focus" style="top: 80px;">
+				<img src="img/index-white.png" basic-src="img/index.png" focus-src="img/index-white.png" width="20" height="20">
 			</div>
 		</div>
 	

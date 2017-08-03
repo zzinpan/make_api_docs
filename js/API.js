@@ -5,6 +5,7 @@ function API( _language ){
 	
 	// html
 	var $apiItems = $("#api_items");
+	var $treeItems = $('#tree_items');
 	var $descFunction = $("#desc_function");
 	var $descDescription = $("#desc_description");
 	var $descParameters = $("#desc_parameters");
@@ -12,14 +13,76 @@ function API( _language ){
 	var $descExample = $("#desc_example");
 	var $apiSearchInp = $("#api_search_input");
 	var $apiSearchBtn = $("#api_search_btn");
+	var $treeList = $("#tree_list");
 	var $window = $(window);
 	
-	$apiItems.on("click", ".api_item", function(){
+	/**
+	 * Tree관련 객체
+	 */
+	var Tree = {
+		
+			// 목록
+			list: [],
+		
+			add: function( fullName ){
+				var names = fullName.split(".");
+				
+					function findChildren( children, text ){
+						for( var i=0; i<children.length; ++i ){
+							if( children[i].text === text ){
+								return children[i];
+							}
+						}
+						var newTree = { text: text, children: [] };
+						children.push( newTree );
+						return newTree;
+					}
+				
+				var tree = { children: Tree.list };
+				for( var j=0; j<names.length; ++j ){
+					tree = findChildren( tree.children, names[ j ] );
+				}
+				
+				tree.id = fullName;
+				
+				var returnTree = $treeItems.jstree(true);
+				returnTree.settings.core.data = Tree.list;
+				returnTree.refresh();
+				
+			}
+		
+	};
+	
+	$treeItems.jstree({ core: { data : Tree.list } });
+	$treeItems.on("changed.jstree", function (e, res) {
+
+		if( res.action === "select_node" ){
+			$.each( $apiItems.find(".api_item"), function( idx, apiItem ){
+				var $apiItem = $(apiItem);
+				if( $apiItem.data("_id") === res.node.id ){
+					$apiItem.trigger("click", true);
+					return false;
+				}
+			} );
+		}
+	});
+	
+	$apiItems.on("click", ".api_item", function( e, isClickFromTrees ){
+
 		var $this = $(this);
 		$(".api_item").removeClass("focus");
 		$(".api_focused_item").remove();
 		$this.addClass("focus");
 		var data = $this.data();
+		
+		// 트리를 클릭한 트리거가 아니라면? -> 트리 폴더를 오픈
+		if( isClickFromTrees !== true ){
+			var jsTreeReturn = $treeItems.jstree(true);
+			jsTreeReturn.deselect_all();
+			jsTreeReturn.close_all();
+			jsTreeReturn.select_node( data._id, "신명철" );
+		}
+		
 		$descFunction.html( data._function );
 		$descFunction.hide();
 		$descFunction.fadeIn( 500 );
@@ -44,6 +107,11 @@ function API( _language ){
 		}).data({
 			$ref: $this
 		});
+		
+		if( $treeList.hasClass("focus") ){
+			$clone.hide();
+		}
+		
 		$("body").append( $clone );
 	}).on("mouseenter", ".api_item", function(e){
 		e.stopImmediatePropagation();
@@ -95,11 +163,11 @@ function API( _language ){
 	};
 	
 	
-	function add( _item, _function, _description, _parameters, _return, _example ){
+	function add( _id, _function, _description, _parameters, _return, _example ){
 		
 		_function = "**" + _function + "**";
 		
-		var $item = $("<h5 class='api_item'></h5>").html( _item );
+		var $item = $("<h5 class='api_item'></h5>").html( _id );
 		
 		var paramTextArr = [];
 		for( var key in _parameters ){
@@ -123,14 +191,36 @@ function API( _language ){
 		}
 		
 		$item.data({
-			_item: _item,
+			_id: _id,
 			_function: converter.makeHtml( _function ),
 			_description: converter.makeHtml( _description ),
 			_parameters: converter.makeHtml( paramTextArr.join("") ),
 			_return: converter.makeHtml( returnTextArr.join("") ),
 			_example: Code.parse( _example )
 		});
+		
 		$apiItems.append( $item );
+
+		// 정렬
+		var $apiItem = $apiItems.find(".api_item");
+	
+		$apiItem.sort(function(a,b){
+			var an = a.innerText,
+				bn = b.innerText;
+	
+			if(an > bn) {
+				return 1;
+			}
+			if(an < bn) {
+				return -1;
+			}
+			return 0;
+		});
+		$apiItem.detach().appendTo($apiItems);
+		// 정렬 - end
+		
+		Tree.add( _id );
+
 	}
 	
 	
@@ -139,7 +229,7 @@ function API( _language ){
 		keyword = keyword.toUpperCase();
 		$.each( $(".api_item"), function( idx, apiItem ){
 			var $apiItem = $( apiItem );
-			var itemText = $apiItem.data("_item");
+			var itemText = $apiItem.data("_id");
 			if( -1 < itemText.toUpperCase().indexOf( keyword ) ){
 				$apiItem.show();
 			}else{

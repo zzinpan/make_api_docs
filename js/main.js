@@ -1,6 +1,6 @@
 $(function(){
 	
-	var api = new API( "javascript" );
+	window.api = new API( "javascript" );
 	
 	api.add( 
 			"SmartGeoKit3D", 
