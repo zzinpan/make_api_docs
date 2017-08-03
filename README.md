@@ -1,8 +1,8 @@
 # make_api_docs
 
-#### API
-
 ***
+
+#### API
 
 ###### API.setLanguage( `String` language )
 ```javascript
