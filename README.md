@@ -2,7 +2,7 @@
 
 ***
 
-#### API
+#### How to use
 
 ###### API.setLanguage( `String` language )
 ```javascript
